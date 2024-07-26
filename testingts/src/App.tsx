@@ -108,6 +108,7 @@ class App extends Component<Record<string, never>, State> {
         <SectionLayout backgroundColor="blueviolet">
           <h1>Hello</h1>
         </SectionLayout>
+        <SectionLayout backgroundColor="blueviolet" children="HELLO" />
         <SectionLayout backgroundColor="palegreen">
           <h1>Hello</h1>
         </SectionLayout>
