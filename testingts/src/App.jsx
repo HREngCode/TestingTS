@@ -62,3 +62,51 @@
 // };
 
 // export default App;
+
+// import { useEffect, useState } from "react";
+// import "./App.css";
+// import { Note } from "./types";
+
+// const getAllNotes = () =>
+//   fetch("http://localhost:3000/notes").then((response) => response.json());
+
+// function App() {
+//   const [activeNote, setActiveNote] = useState<Note | null>(null);
+//   const [allNotes, setAllNotes] = useState<Note[]>([]);
+
+//   useEffect(() => {
+//     getAllNotes().then(setAllNotes);
+//   }, []);
+
+//   return (
+//     <>
+//       <h1>Notes App</h1>
+//       <h3>All Notes</h3>
+//       <ol>
+//         <section className="notes-list">
+//           {allNotes.map((note) => (
+//             <li
+//               key={note.id}
+//               onClick={() => {
+//                 setActiveNote(note);
+//               }}
+//             >
+//               {note.title}
+//             </li>
+//           ))}
+//         </section>
+//       </ol>
+//       <section className="my-note">
+//         <h3>My Note</h3>
+//         <div>
+//           <b>Title:</b> {activeNote?.title}
+//         </div>
+//         <div>
+//           <b>Content</b> {activeNote?.content}
+//         </div>
+//       </section>
+//     </>
+//   );
+// }
+
+// export default App;
