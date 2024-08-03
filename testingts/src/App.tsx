@@ -1,9 +1,9 @@
 import { Component } from "react";
 import "./App.css";
 import { Note } from "./types";
-import { NotesList } from "./Components/NotesList";
-import { ActiveNote } from "./Components/ActiveNote";
-import { CreateNoteForm } from "./Components/CreateNoteForm";
+// import { NotesList } from "./Components/NotesList";
+// import { ActiveNote } from "./Components/ActiveNote";
+// import { CreateNoteForm } from "./Components/CreateNoteForm";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
 import { SectionLayout } from "./Components/Layouts/SectionLayout";
@@ -24,14 +24,6 @@ class App extends Component<Record<string, never>, State> {
   componentDidMount(): void {
     this.refetchData();
   }
-
-  // This can work but if the fetch fails, it doesn't go anywhere
-  // refetchData = () => {
-  //   this.setState({ isLoading: true });
-  //   return Requests.getAllNotes().then((notes) => {
-  //     this.setState({ allNotes: notes });
-  //   }).then(() => this.setState({ isLoading: false }));
-  // };
 
   refetchData = () => {
     this.setState({ isLoading: true });

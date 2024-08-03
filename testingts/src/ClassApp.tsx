@@ -1,7 +1,7 @@
 // import { Component } from "react";
 // import "./App.css";
 // import { Note } from "./types";
-// import { NotesList } from "./NotesList";
+// import { NotesList } from "./Components/NotesList";
 
 // const getAllNotes = () =>
 //   fetch("http://localhost:3000/notes").then((response) => response.json());
