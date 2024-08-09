@@ -1,67 +1,72 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Note } from "./types";
-// import { NotesList } from "./Components/NotesList";
-// import { ActiveNote } from "./Components/ActiveNote";
-// import { CreateNoteForm } from "./Components/CreateNoteForm";
+import { NotesList } from "./Components/NotesList";
+import { ActiveNote } from "./Components/ActiveNote";
+import { CreateNoteForm } from "./Components/CreateNoteForm";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
 import { SectionLayout } from "./Components/Layouts/SectionLayout";
 
-type State = {
-  activeNote: Note | null;
-  allNotes: Note[];
-  isLoading: boolean;
-};
+function App() {
+  const [activeNote, setActiveNote] = useState<Note | null>(null);
+  const [allNotes, setAllNotes] = useState<Note[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-class App extends Component<Record<string, never>, State> {
-  state: State = {
-    activeNote: null,
-    allNotes: [],
-    isLoading: false,
-  };
+  useEffect(() => {
+    // Two arguments to it, A effect, B dependency array
+    // dependency array empty? runs once
+    // This function gets called whenever anything inside of b changes
+    // Requests.getAllNotes().then(setAllNotes);
+    refetchData();
+  }, []);
 
-  componentDidMount(): void {
-    this.refetchData();
-  }
-
-  refetchData = () => {
-    this.setState({ isLoading: true });
-    return Requests.getAllNotes()
+  const refetchData = () => {
+    setIsLoading(true);
+    Requests.getAllNotes()
       .then((notes) => {
-        this.setState({ allNotes: notes });
+        setAllNotes(notes);
       })
-      .finally(() => this.setState({ isLoading: false }));
+      .finally(() => setIsLoading(false));
   };
 
-  createNote = (note: Omit<Note, "id">) => {
-    this.setState({ isLoading: true });
+  const createNote = (note: Omit<Note, "id">) => {
+    setIsLoading(true);
     Requests.createNote(note)
-      .then(this.refetchData)
+      .then(refetchData)
       .then(() => {
         toast.success("Awesome Note Dude 🚀");
       })
       .finally(() => {
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  render() {
-    return (
-      <>
-        <SectionLayout backgroundColor="blueviolet">
-          <h1>Hello</h1>
-        </SectionLayout>
-        <SectionLayout backgroundColor="blueviolet" children="HELLO" />
-        <SectionLayout backgroundColor="palegreen">
-          <h1>Hello</h1>
-        </SectionLayout>
-        <SectionLayout backgroundColor="tomato">
-          <h1>Hello</h1>
-        </SectionLayout>
-      </>
-    );
-  }
+  const deleteNote = (id: number) => {
+    setIsLoading(true);
+    Requests.deleteNote(id)
+      .then(refetchData)
+      .then(() => {
+        toast.success("You deleted successfully");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  return (
+    <>
+      <h1>Notes App</h1>
+      <h1>{isLoading ? "loading...." : ""}</h1>
+      <NotesList
+        setActiveNote={setActiveNote}
+        allNotes={allNotes}
+        onDeleteNote={deleteNote}
+      />
+      <ActiveNote note={activeNote} />
+      <CreateNoteForm createNote={createNote} isLoading={isLoading} />
+    </>
+  );
 }
 
 export default App;

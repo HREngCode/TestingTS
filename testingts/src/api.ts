@@ -15,5 +15,11 @@ export const Requests = {
         "Content-Type": "application/json"
       },
     }).then((responses) => responses.json())
+  },
+
+  deleteNote: (id: number) => {
+    return fetch(`${BASE_URL}/notes/${id}`, {
+      method: "DELETE",
+    }).then(response => response.json());
   }
 };
